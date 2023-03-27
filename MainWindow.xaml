@@ -1,0 +1,46 @@
+﻿<Window x:Class="TestTask.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestTask.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+        <DataGrid VirtualizingStackPanel.IsVirtualizing="False" Name="BooksDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" SelectedCellsChanged="BooksDataGrid_SelectedCellsChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Ср. кол-во шагов" Binding="{Binding AvgSteps}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Макс. кол-во шагов" Binding="{Binding MaxSteps}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Мин. кол-во шагов" Binding="{Binding MinSteps}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="1" Grid.RowSpan="2">
+            <local:MsChart SeriesCollection="{Binding StatisticsSeriesSelectedUser}" Title="График по выбранному пользователю" XLabel="Дни" YLabel="Шаги"/>
+        </Grid>
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="2">
+            <Label Background="LightGreen" Padding="0" Height="16" VerticalAlignment="Top">Лучший результат пользователя на 20% больше ср. кол-во шагов выбранного пользователя</Label>
+            <Label Background="LightPink" Padding="0" Height="16" VerticalAlignment="Bottom">Худший результат пользователя на 20% меньше ср. кол-во шагов выбранного пользователя</Label>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal">
+            <Button Command="{Binding SaveCommand}">Экспортировать</Button>
+        </StackPanel>
+    </Grid>
+</Window>
